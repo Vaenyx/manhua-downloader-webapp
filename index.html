@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#181818">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default"
+    >
+
+    <title>{app_title}</title>
+
+    <link
+        rel="manifest"
+        href="./manifest.webmanifest"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="./assets/icon-192.png"
+    >
+
+    <script>
+    if ("serviceWorker" in navigator) {
+        let refreshing = false;
+
+        navigator.serviceWorker.addEventListener(
+            "controllerchange",
+            () => {
+                if (refreshing) {
+                    return;
+                }
+
+                refreshing = true;
+                window.location.reload();
+            }
+        );
+
+        window.addEventListener("load", async () => {
+            try {
+                const manifestElement =
+                    document.querySelector('link[rel="manifest"]');
+
+                const manifestUrl = new URL(manifestElement.href);
+                const appRoot = new URL("./", manifestUrl);
+                const serviceWorkerUrl =
+                    new URL("sw.js", appRoot);
+
+                const registration =
+                    await navigator.serviceWorker.register(
+                        serviceWorkerUrl,
+                        {
+                            scope: appRoot.href,
+                        }
+                    );
+
+                console.info(
+                    "Service worker registered:",
+                    registration.scope
+                );
+            } catch (error) {
+                console.error(
+                    "Service worker registration failed:",
+                    error
+                );
+            }
+        });
+    }
+</script>
+    </head>
+
+<body>
+    <p>tdsffdssfdet</p>
+    <div id="main"></div>
+</body>
+</html>

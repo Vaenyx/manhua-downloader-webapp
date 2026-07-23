@@ -1,0 +1,16 @@
+[application]
+name = "hello-pwa"
+default_platform = "web"
+
+# Build output
+out_dir = "dist"
+
+# Files inside this directory are copied into dist/assets/
+asset_dir = "public"
+
+[web.app]
+title = "Hello PWA"
+
+[web.watcher]
+reload_html = true
+watch_path = ["src", "public", "index.html"]
